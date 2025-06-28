@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2>Welcome to the Admin Dashboard</h2>
+        {% if msg %}
+            <div class="alert alert-success mt-3">{{ msg }}</div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-header">Manage Users</div>
+                <div class="card-body">
+                    <p class="card-text">View and manage all registered users.</p>
+                    <a href="" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-header">Events</div>
+                <div class="card-body">
+                    <p class="card-text">Create or update upcoming events.</p>
+                    <a href="{% url 'addevent' %}" class="btn btn-primary">Manage Events</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-header">Logout</div>
+                <div class="card-body">
+                    <p class="card-text">End your admin session securely.</p>
+                    <a href="" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

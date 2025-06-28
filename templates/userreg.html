@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}User Registration - TheEvent{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">User Registration</h2>
+
+<form method="post" action="{% url 'userreg' %}">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_name" class="form-label">Name</label>
+        <input type="text" name="name" id="name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="id_email" class="form-label">Email address</label>
+        <input type="email" name="email" id="email" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="id_phone" class="form-label">Phone Number</label>
+        <input type="tel" name="phone" id="phone" class="form-control" pattern="[0-9]{10,15}" placeholder="Optional">
+    </div>
+    <div class="mb-3">
+        <label for="id_address" class="form-label">Address</label>
+        <textarea name="address" id="address" rows="3" class="form-control" placeholder="Optional"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+{% endblock %}
