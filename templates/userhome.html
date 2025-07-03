@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}User Home - TheEvent{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  
+
+    <p class="text-center text-muted">Here are the upcoming events you can register for:</p>
+
+    {% if events %}
+        <div class="row">
+            {% for event in events %}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text">{{ event.description|truncatewords:20 }}</p>
+                        <p class="mb-1"><strong>Date & Time:</strong> {{ event.datetime }}</p>
+                        <p class="mb-1"><strong>Venue:</strong> {{ event.venue }}</p>
+                        <p class="mb-2"><strong>Seats Available:</strong> {{ event.capacity }}</p>
+                        <div class="d-flex justify-content-between">
+                            <a href="" class="btn btn-outline-primary btn-sm">View Details</a>
+                            <a href="{% url 'book_event' event.id %}" class="btn btn-success btn-sm">Book Now</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            No upcoming events available at the moment. Please check back later.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

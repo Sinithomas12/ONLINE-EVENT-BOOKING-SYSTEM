@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 # Create your models here.
 
 class Login(models.Model):
@@ -19,3 +19,38 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+class UserReg(models.Model):
+    usrid = models.ForeignKey(Login, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=100, null=True)
+    email = models.EmailField(max_length=100, null=True)
+    password = models.CharField(max_length=100, null=True)
+    phone = models.CharField(max_length=100, null=True)
+
+    gender = models.CharField(max_length=100, null=True)
+    address = models.CharField(max_length=100, null=True)
+    
+from django.db import models
+from django.utils import timezone
+from django.db import models
+from django.utils import timezone
+from .models import Event  # assuming Event is in the same app
+
+class Booking(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='bookings')
+    booking_date = models.DateTimeField(default=timezone.now)
+    is_cancelled = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('email', 'event')  # Prevent duplicate bookings
+
+    def __str__(self):
+        return f"{self.name} - {self.event.title}"
+
+    def status(self):
+        if self.is_cancelled:
+            return "Cancelled"
+        elif timezone.now() > self.event.datetime:
+            return "Past"
+        return "Confirmed"

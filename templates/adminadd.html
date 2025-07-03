@@ -4,58 +4,65 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Add New Event</h2>
+    <!-- Form Title -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="POST" enctype="multipart/form-data" class="border p-4 shadow-sm bg-light rounded">
+                <h2 class="text-center mb-4" style="color: #000;">Add New Event</h2>
+                {% csrf_token %}
 
-    {% if msg %}
-        <div class="alert alert-info text-center">{{ msg }}</div>
-    {% endif %}
+                {% if msg %}
+                    <div class="alert alert-info text-center">{{ msg }}</div>
+                {% endif %}
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+                <div class="mb-3">
+                    <label for="image" class="form-label text-dark">Event Image</label>
+                    <input type="file" class="form-control" name="image" id="image" required>
+                </div>
 
-        <div class="mb-3">
-            <label for="image" class="form-label">Event Image</label>
-            <input type="file" class="form-control" name="image" id="image" required>
+                <div class="mb-3">
+                    <label for="title" class="form-label text-dark">Event Title</label>
+                    <input type="text" class="form-control" name="title" id="title" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label text-dark">Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="4" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="datetime" class="form-label text-dark">Date & Time</label>
+                    <input type="datetime-local" class="form-control" name="datetime" id="datetime" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="venue" class="form-label text-dark">Venue</label>
+                    <input type="text" class="form-control" name="venue" id="venue" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="capacity" class="form-label text-dark">Capacity</label>
+                    <input type="number" class="form-control" name="capacity" id="capacity" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="regdead" class="form-label text-dark">Registration Deadline</label>
+                    <input type="datetime-local" class="form-control" name="regdead" id="regdead" required>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success px-4">Add Event</button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label for="title" class="form-label">Event Title</label>
-            <input type="text" class="form-control" name="title" id="title" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" name="description" id="description" rows="4" required></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="datetime" class="form-label">Date & Time</label>
-            <input type="datetime-local" class="form-control" name="datetime" id="datetime" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="venue" class="form-label">Venue</label>
-            <input type="text" class="form-control" name="venue" id="venue" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="capacity" class="form-label">Capacity</label>
-            <input type="number" class="form-control" name="capacity" id="capacity" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="regdead" class="form-label">Registration Deadline</label>
-            <input type="datetime-local" class="form-control" name="regdead" id="regdead" required>
-        </div>
-
-        <div class="text-center">
-            <button type="submit" class="btn btn-success">Add Event</button>
-        </div>
-    </form>
-
+    <!-- Divider -->
     <hr class="my-5">
 
-    <h3 class="text-center mb-4">Existing Events</h3>
+    <!-- Event List -->
+<h3 class="text-center mb-4 text-white" style="color: #000;">Existing Events</h3>
+
 
     {% if events %}
         <div class="table-responsive">
@@ -87,7 +94,7 @@
             </table>
         </div>
     {% else %}
-        <p class="text-center">No events found.</p>
+        <p class="text-center text-muted">No events found.</p>
     {% endif %}
 </div>
 {% endblock %}
