@@ -57,24 +57,10 @@
           <li><a href="#schedule">Schedule</a></li>
           <li><a href="#venue">Venue</a></li>
           <li><a href="{% url 'login' %}">Login</a></li>
-          <li><a href="{% url 'userreg' %}">Gallery</a></li>
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
+          <li><a href="{% url 'userreg' %}">Register</a></li>
+     
+            
+          
           <li><a href="#contact">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -175,7 +161,7 @@
 
           <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div class="member">
-              <img src="assets/img/speakers/speaker-3.jpg" class="img-fluid" alt="">
+              <img src="{% static 'assets/img/speakers/speaker-3.jpg' %}" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
                   <h4><a href="speaker-details.html">Amanda Jepson</a></h4>
@@ -193,7 +179,7 @@
 
           <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
             <div class="member">
-              <img src="assets/img/speakers/speaker-4.jpg" class="img-fluid" alt="">
+              <img src="{% static 'assets/img/speakers/speaker-4.jpg' %}" class="img-fluid" alt="">
               <div class="member-info">
                 <div class="member-info-content">
                   <h4><a href="speaker-details.html">William Anderson</a></h4>

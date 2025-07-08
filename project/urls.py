@@ -29,7 +29,12 @@ urlpatterns = [
     path('userreg', views.userreg, name='userreg'), 
     path('userviewevent', views.userviewevent, name='userviewevent'), 
     path('book/<int:event_id>/', views.book_event, name='book_event'),
-     path('userviewreg', views.userviewreg, name='userviewreg'), 
+    path('userviewreg', views.userviewreg, name='userviewreg'), 
+    path('deleteevent/<int:id>/', views.delete_event, name='delete_event'), 
+    path('updateevent/<int:id>/', views.update_event, name='update_event'),
+    path('logout/', views.logout_view, name='logout'),
+    path('userreg', views.userreg, name='userreg'),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=os.path.join(settings.BASE_DIR, 'static'))

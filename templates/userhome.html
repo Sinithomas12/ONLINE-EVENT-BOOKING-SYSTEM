@@ -4,10 +4,9 @@
 
 {% block content %}
 <div class="container mt-5">
-  
 
-    <p class="text-center text-muted">Here are the upcoming events you can register for:</p>
-
+    <!-- Upcoming Events Section -->
+    <h4 class="text-center mb-3">Upcoming Events You Can Register For</h4>
     {% if events %}
         <div class="row">
             {% for event in events %}
@@ -21,9 +20,8 @@
                         <p class="mb-1"><strong>Venue:</strong> {{ event.venue }}</p>
                         <p class="mb-2"><strong>Seats Available:</strong> {{ event.capacity }}</p>
                         <div class="d-flex justify-content-between">
-                            <a href="" class="btn btn-outline-primary btn-sm">View Details</a>
+                            <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
                             <a href="{% url 'book_event' event.id %}" class="btn btn-success btn-sm">Book Now</a>
-
                         </div>
                     </div>
                 </div>
@@ -35,5 +33,48 @@
             No upcoming events available at the moment. Please check back later.
         </div>
     {% endif %}
+
+    <!-- Booked Events Section (Cards) -->
+    <hr class="my-5">
+    <h4 class="text-center mb-4">Your Booked Events</h4>
+    {% if booked_events %}
+        <div class="row">
+            {% for booking in booked_events %}
+            <div class="col-md-6 mb-4">
+                <div class="card border-success shadow-sm">
+                    <img src="{{ booking.event.image.url }}" class="card-img-top" alt="{{ booking.event.title }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">{{ booking.event.title }}</h5>
+                        <p class="card-text">{{ booking.event.description|truncatewords:20 }}</p>
+                        <p><strong>Date & Time:</strong> {{ booking.event.datetime }}</p>
+                        <p><strong>Venue:</strong> {{ booking.event.venue }}</p>
+                        <p><strong>Seats Booked:</strong> {{ booking.seats_booked }}</p>
+                        <span class="badge bg-success">Booked</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            You haven't booked any events yet.
+        </div>
+    {% endif %}
+
+    <!-- Booked Events List (Simple) -->
+    <hr>
+    <h4>Your Bookings (List View)</h4>
+    {% if booked_events %}
+      <ul>
+      {% for booking in booked_events %}
+        <li>
+          Event: {{ booking.event.title }} - Booked Seats: {{ booking.seats_booked }}
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p>No bookings found.</p>
+    {% endif %}
+
 </div>
 {% endblock %}

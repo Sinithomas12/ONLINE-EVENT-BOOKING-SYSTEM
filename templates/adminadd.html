@@ -87,7 +87,16 @@
                         <td>{{ event.datetime }}</td>
                         <td>{{ event.venue }}</td>
                         <td>{{ event.capacity }}</td>
-                        <td>{{ event.registration_deadline }}</td>
+                        <td>{{ event.regdead }}</td>
+                        <td>
+    <a href="{% url 'delete_event' event.id %}" 
+       class="btn btn-sm btn-danger"
+       onclick="return confirm('Are you sure you want to delete this event?');">
+       Delete
+    </a>
+    <a href="{% url 'update_event' event.id %}" class="btn btn-sm btn-warning">Edit</a>
+</td>
+
                     </tr>
                     {% endfor %}
                 </tbody>

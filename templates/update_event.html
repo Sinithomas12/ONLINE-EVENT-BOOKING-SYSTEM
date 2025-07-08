@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Update Event</h2>
+    <form method="POST" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="title" class="form-label">Event Title</label>
+            <input type="text" class="form-control" name="title" id="title" value="{{ event.title }}">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" name="description" id="description">{{ event.description }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="datetime" class="form-label">Date & Time</label>
+            <input type="datetime-local" class="form-control" name="datetime" id="datetime" value="{{ event.datetime|date:'Y-m-d\\TH:i' }}">
+        </div>
+        <div class="mb-3">
+            <label for="venue" class="form-label">Venue</label>
+            <input type="text" class="form-control" name="venue" id="venue" value="{{ event.venue }}">
+        </div>
+        <div class="mb-3">
+            <label for="capacity" class="form-label">Capacity</label>
+            <input type="number" class="form-control" name="capacity" id="capacity" value="{{ event.capacity }}">
+        </div>
+        <div class="mb-3">
+            <label for="regdead" class="form-label">Registration Deadline</label>
+            <input type="datetime-local" class="form-control" name="regdead" id="regdead" value="{{ event.regdead|date:'Y-m-d\\TH:i' }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Current Image</label><br>
+            <img src="{{ event.image.url }}" width="150" height="100" style="object-fit: cover;">
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Update Image</label>
+            <input type="file" class="form-control" name="image" id="image">
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+{% endblock %}

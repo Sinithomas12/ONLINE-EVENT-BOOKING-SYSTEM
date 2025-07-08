@@ -64,7 +64,7 @@ def userreg(request):
     if request.POST:
         name = request.POST.get("name")
         email = request.POST.get("email")
-        phone = request.POST.get("number")
+        phone = request.POST.get("phone")
         password = request.POST.get("password")
         address = request.POST.get("address")
         gender = request.POST.get("gender")
@@ -83,8 +83,14 @@ def userreg(request):
 def userviewevent(request):
     msg = request.GET.get('msg')
     events = Event.objects.all()
-    return render(request, 'userhome.html', {"events": events, "msg": msg})
-from django.shortcuts import render, redirect, get_object_or_404
+    bookings = Booking.objects.all()  # get all bookings
+    
+    return render(request, 'userhome.html', {
+        "events": events,
+        "bookings": bookings,
+        "msg": msg
+    })
+
 from django.contrib import messages
 from app.models import Event, Booking
 from django.utils import timezone
@@ -124,5 +130,45 @@ def userviewreg(request):
     msg = request.GET.get('msg')
     users = UserReg.objects.all()
     return render(request, 'adminusers.html', {"users": users, "msg": msg})
+from django.shortcuts import get_object_or_404
+
+def delete_event(request, id):
+    event = get_object_or_404(Event, id=id)
+    event.delete()
+    return redirect('addevent')  # or use your actual view name
+def update_event(request, id):
+    event = get_object_or_404(Event, id=id)
+    msg = ''
+    if request.method == "POST":
+        event.title = request.POST.get("title")
+        event.description = request.POST.get("description")
+        event.datetime = request.POST.get("datetime")
+        event.venue = request.POST.get("venue")
+        event.capacity = request.POST.get("capacity")
+        event.regdead = request.POST.get("regdead")
+        if 'image' in request.FILES:
+            event.image = request.FILES['image']
+        event.save()
+        msg = "Updated Successfully"
+        return redirect('addevent')  # back to the add event page
+
+    return render(request, 'update_event.html', {'event': event, 'msg': msg})
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # Replace 'login' with the name of your login page URL
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def user_home(request):
+    events = Event.objects.filter(datetime__gte=timezone.now())
+    booked_events = Booking.objects.filter(user=request.user).select_related('event')
+    return render(request, 'userhome.html', {
+        'events': events,
+        'booked_events': booked_events,
+    })
+
 
 
