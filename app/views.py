@@ -9,6 +9,11 @@ from app.models import UserReg
 def index(request):
     return render(request,'index.html')
 
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
+from django.contrib import messages
+
 def login(request):
     msg = request.GET.get('msg', '')
 
@@ -34,30 +39,40 @@ def login(request):
             msg = "Invalid username or password provided"
 
     return render(request, 'login.html', {'msg': msg})
-def addevent(request): 
-    title=request.POST.get("title")
-    msg=request.GET.get('msg')
-    if Event.objects.filter(title=title).exists():
-        mg="already added"
+from django.utils import timezone
+from django.shortcuts import render
+from .models import Event
 
-    else:
-       msg = ""
-       msg = request.GET.get('msg')
-       if request.POST:
-          
-           image = request.FILES["image"]
-           title=request.POST.get("title")
-           description=request.POST.get("description")
-           datetime=request.POST.get("datetime")
-           venue=request.POST.get("venue")
-           capacity=request.POST.get("capacity")
-           regdead=request.POST.get("regdead")
-           abc = Event.objects.create(
-                image=image,title=title,description=description,venue=venue,datetime=datetime,capacity=capacity,regdead=regdead)
-           abc.save()
-           msg = "Added Successfully"
+def addevent(request):
+    msg = ""
+
+    if request.method == "POST":
+        title = request.POST.get("title")
+
+        if Event.objects.filter(title=title).exists():
+            msg = "Event with this title already exists."
+        else:
+            image = request.FILES.get("image")
+            description = request.POST.get("description")
+            datetime = request.POST.get("datetime")
+            venue = request.POST.get("venue")
+            capacity = request.POST.get("capacity")
+            regdead = request.POST.get("regdead")
+
+            Event.objects.create(
+                image=image,
+                title=title,
+                description=description,
+                venue=venue,
+                datetime=datetime,
+                capacity=capacity,
+                regdead=regdead
+            )
+            msg = "Event added successfully."
+
     events = Event.objects.filter(datetime__gte=timezone.now())
-    return render(request, 'adminadd.html', {"msg": msg,'events':events})
+    return render(request, 'adminadd.html', {"msg": msg, "events": events})
+
 def userreg(request):
     msg = ""
     msg = request.GET.get('msg')
@@ -94,6 +109,25 @@ def userviewevent(request):
 from django.contrib import messages
 from app.models import Event, Booking
 from django.utils import timezone
+def userviewevent(request):
+    msg = request.GET.get('msg')
+
+    # Only show events where registration deadline is still open and event date is in the future
+    events = Event.objects.filter(regdead__gte=timezone.now(), datetime__gte=timezone.now())
+
+    user_bookings = []
+    if request.user.is_authenticated:
+        user_bookings = Booking.objects.filter(user=request.user).values_list('event_id', flat=True)
+
+    return render(request, 'userhome.html', {
+        "events": events,
+        "user_bookings": user_bookings,
+        "msg": msg
+    })
+
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
+from django.utils import timezone
 
 def book_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
@@ -115,8 +149,9 @@ def book_event(request, event_id):
             messages.error(request, "No seats available for this event.")
             return redirect('userviewevent')
 
-        # Save booking
+        # Save booking, user is None if anonymous
         Booking.objects.create(
+            user=request.user if request.user.is_authenticated else None,
             name=name,
             email=email,
             event=event,
@@ -126,10 +161,20 @@ def book_event(request, event_id):
         return redirect('userviewevent')
 
     return render(request, 'book_event.html', {'event': event})
+
+
 def userviewreg(request):
     msg = request.GET.get('msg')
     users = UserReg.objects.all()
     return render(request, 'adminusers.html', {"users": users, "msg": msg})
+from django.shortcuts import get_object_or_404, redirect
+from .models import UserReg  # adjust path based on your app structure
+
+def delete_user(request, id):
+    user = get_object_or_404(UserReg, id=id)
+    user.delete()
+    return redirect('userviewreg')  # or 'userhome' if that's where you want to redirect
+
 from django.shortcuts import get_object_or_404
 
 def delete_event(request, id):
@@ -169,6 +214,21 @@ def user_home(request):
         'events': events,
         'booked_events': booked_events,
     })
+def userviewevent(request):
+    msg = request.GET.get('msg')
+    events = Event.objects.filter(datetime__gte=timezone.now())
+
+    user_bookings = []
+    if request.user.is_authenticated:
+        # Only show bookings if user is logged in
+        user_bookings = Booking.objects.filter(user=request.user).values_list('event_id', flat=True)
+
+    return render(request, 'userhome.html', {
+        "events": events,
+        "user_bookings": user_bookings,  # empty list if not logged in
+        "msg": msg
+    })
+
 
 
 

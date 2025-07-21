@@ -34,7 +34,8 @@ urlpatterns = [
     path('updateevent/<int:id>/', views.update_event, name='update_event'),
     path('logout/', views.logout_view, name='logout'),
     path('userreg', views.userreg, name='userreg'),
-
+    path('delete-user/<int:id>/', views.delete_user, name='delete_user'),
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=os.path.join(settings.BASE_DIR, 'static'))

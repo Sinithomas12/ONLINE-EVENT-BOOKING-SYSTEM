@@ -34,13 +34,17 @@ from django.utils import timezone
 from django.db import models
 from django.utils import timezone
 from .models import Event  # assuming Event is in the same app
+from django.contrib.auth.models import User
 
 class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True) 
     name = models.CharField(max_length=100)
     email = models.EmailField()
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='bookings')
     booking_date = models.DateTimeField(default=timezone.now)
     is_cancelled = models.BooleanField(default=False)
+    seats_booked = models.PositiveIntegerField(default=1)
+
 
     class Meta:
         unique_together = ('email', 'event')  # Prevent duplicate bookings
