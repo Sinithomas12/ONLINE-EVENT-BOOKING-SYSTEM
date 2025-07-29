@@ -2,9 +2,25 @@
 
 {% block title %}User Dashboard{% endblock %}
 
+{% block nav_extras %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'userviewevent' %}">Home</a>
+</li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+        <!-- You can replace '#' with actual profile URL -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'mybookings' %}">My Bookings</a>
+ <!-- Adjust if needed -->
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
+    </li>
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
-
     <!-- Upcoming Events Section -->
     <h3 class="text-center mb-4">Upcoming Events You Can Register For</h3>
     {% if events %}
@@ -17,8 +33,9 @@
                             <h5 class="card-title">{{ event.title }}</h5>
                             <p class="card-text">{{ event.description|truncatewords:20 }}</p>
                             <p><strong>Date & Time:</strong> {{ event.datetime|date:"D, M j, Y - H:i" }}</p>
+                            <p><strong>Registration Deadline:</strong> {{ event.regdead|date:"D, M j, Y - H:i" }}</p>
                             <p><strong>Venue:</strong> {{ event.venue }}</p>
-                            <p><strong>Seats Available:</strong> {{ event.capacity }}</p>
+                            <p><strong>Seats:</strong> {{ event.capacity }}</p>
                             <div class="d-flex justify-content-center mt-3">
                                 {% if event.id in user_bookings %}
                                     <button class="btn btn-secondary btn-sm" disabled title="You have already booked this event.">Already Booked</button>
@@ -36,6 +53,6 @@
             No upcoming events available at the moment. Please check back later.
         </div>
     {% endif %}
-
 </div>
 {% endblock %}
+

@@ -25,13 +25,25 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" required>
+                                <span class="input-group-text" onclick="togglePassword()" style="cursor: pointer;">
+                                    <span id="toggleIcon">👁️</span>
+                                </span>
+                            </div>
                         </div>
+                        
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
                         <div class="text-center mt-3">
                             <a href="{% url 'userreg' %}">Don't have an account? Register</a>
+                            
+                                <div class="text-end">
+                                    <a href="{% url 'forgotpassword' %}">Forgot Password?</a>
+                                </div>
+                            </div>
+                            
                         </div>
                     </form>
                 </div>
@@ -39,4 +51,19 @@
         </div>
     </div>
 </div>
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('toggleIcon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.textContent = '👁️‍🗨️'; // Hide icon
+        } else {
+            passwordInput.type = 'password';
+            icon.textContent = '👁️'; // Show icon
+        }
+    }
+</script>
+
 {% endblock %}

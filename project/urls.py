@@ -21,21 +21,23 @@ from django.conf import settings
 from django.conf.urls.static import static
 import os
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.index),
-    path('login',views.login,name="login"),
-    path('events', views.addevent, name='addevent'), 
-    path('userreg', views.userreg, name='userreg'), 
-    path('userviewevent', views.userviewevent, name='userviewevent'), 
+    path('', views.index),
+    path('login/', views.login, name='login'),
+    path('events/', views.addevent, name='addevent'), 
+    path('userreg/', views.userreg, name='userreg'), 
+    path('userviewevent/', views.userviewevent, name='userviewevent'), 
     path('book/<int:event_id>/', views.book_event, name='book_event'),
-    path('userviewreg', views.userviewreg, name='userviewreg'), 
+    path('userviewreg/', views.userviewreg, name='userviewreg'), 
     path('deleteevent/<int:id>/', views.delete_event, name='delete_event'), 
     path('updateevent/<int:id>/', views.update_event, name='update_event'),
     path('logout/', views.logout_view, name='logout'),
-    path('userreg', views.userreg, name='userreg'),
     path('delete-user/<int:id>/', views.delete_user, name='delete_user'),
-    
+    path('profile/', views.profile_view, name='profile'),
+    path('mybookings/', views.my_bookings, name='mybookings'),
+    path('forgot-password/', views.forgotpassword, name='forgotpassword'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=os.path.join(settings.BASE_DIR, 'static'))

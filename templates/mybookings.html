@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block nav_extras %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'userviewevent' %}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'mybookings' %}">My Bookings</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="mb-4 text-center">My Booked Events</h3>
+    {% if bookings %}
+        <div class="row">
+            {% for booking in bookings %}
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="{{ booking.event.image.url }}" class="card-img-top" alt="{{ booking.event.title }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ booking.event.title }}</h5>
+                            <p><strong>Date & Time:</strong> {{ booking.event.datetime|date:"D, M j, Y - H:i" }}</p>
+                            <p><strong>Venue:</strong> {{ booking.event.venue }}</p>
+                            <!--<p><strong>Seats Booked:</strong> {{ booking.seats_booked }}</p>-->
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">You haven't booked any events yet.</div>
+    {% endif %}
+</div>
+{% endblock %}
