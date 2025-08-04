@@ -24,7 +24,7 @@ import os
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
+    path('', views.index,name='index'),
     path('login/', views.login, name='login'),
     path('events/', views.addevent, name='addevent'), 
     path('userreg/', views.userreg, name='userreg'), 
@@ -38,6 +38,8 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('mybookings/', views.my_bookings, name='mybookings'),
     path('forgot-password/', views.forgotpassword, name='forgotpassword'),
+    path('logout/', views.logouts, name='logouts'),
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=os.path.join(settings.BASE_DIR, 'static'))

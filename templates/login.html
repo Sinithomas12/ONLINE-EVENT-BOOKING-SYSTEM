@@ -9,20 +9,24 @@
             <div class="card shadow-sm">
                 <div class="card-body p-4">
                     <h3 class="card-title text-center mb-4">Login</h3>
+
                     {% if msg %}
                         <div class="alert alert-warning">{{ msg }}</div>
                     {% endif %}
+
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }}">{{ message }}</div>
                         {% endfor %}
                     {% endif %}
+
                     <form method="POST" action="{% url 'login' %}">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
                         </div>
+
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <div class="input-group">
@@ -32,25 +36,25 @@
                                 </span>
                             </div>
                         </div>
-                        
+
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
+
                         <div class="text-center mt-3">
                             <a href="{% url 'userreg' %}">Don't have an account? Register</a>
-                            
-                                <div class="text-end">
-                                    <a href="{% url 'forgotpassword' %}">Forgot Password?</a>
-                                </div>
-                            </div>
-                            
+                        </div>
+                        <div class="text-end mt-2">
+                            <a href="{% url 'forgotpassword' %}">Forgot Password?</a>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     function togglePassword() {
         const passwordInput = document.getElementById('password');
@@ -58,10 +62,10 @@
 
         if (passwordInput.type === 'password') {
             passwordInput.type = 'text';
-            icon.textContent = '👁️‍🗨️'; // Hide icon
+            icon.textContent = '👁️‍🗨️';
         } else {
             passwordInput.type = 'password';
-            icon.textContent = '👁️'; // Show icon
+            icon.textContent = '👁️';
         }
     }
 </script>

@@ -41,7 +41,9 @@ def login(request):
 def logout_view(request):
     request.session.flush()
     return redirect('login')
-
+def logouts(request):
+    logouts(request)  # Log out the user
+    return redirect('index')
 
 def forgotpassword(request):
     if request.method == 'POST':
